@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 
 class Counter extends Component {
-    // constructor: 컴포넌트 생성자 메서드
-    constructor(props){
-        super(props); //필수! 현재 클래스형 컴포넌트가 상속하고 있는 리액트의 Component클래스가 지닌 생성자 함수를 호출
 
-        // state의 초깃값 설정하기
-        this.state = {
-            number: 0,
-            fixedNumber: 0
-        };
-    }
+    // constructor를 선언하지 않고도 state의 초깃값 설정이 가능(주 사용방식)
+    state = {
+        number: 0,
+        fixedNumber: 0
+    };
+
+    // state를 constructor에서 꺼내고 constructor는 삭제
+
     render() {
         const { number, fixedNumber } = this.state; // state를 조회할때는 this.state로 조회
         return (
