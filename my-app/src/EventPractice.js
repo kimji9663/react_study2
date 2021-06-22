@@ -1,71 +1,37 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 
-// class EventPractice extends Component {
-
-//     state = {
-//         username: '',
-//         message: ''
-//     }
-
-//     handleChange = (e) => {
-//         this.setState({
-//             [e.target.name]: e.target.value
-//         });
-//     }
-
-//     handleClick = () => {
-//         alert(this.state.username + ':' + this.state.message);
-//         this.setState({
-//             username: '',
-//             message: ''
-//         });
-//     }
-
-//     handleKeyPress = (e) => {
-//         if(e.key === 'Enter'){
-//             this.handleClick();
-//         }
-//     }
-    
-//     render() {
-//         return (
-//             <div>
-//                 <h1>이벤트 연습</h1>
-//                 <input
-//                     type="text"
-//                     name="message"
-//                     placeholder="아무거나 입력해보세요"
-//                     value={this.state.message}
-//                     onChange={ this.handleChange} 
-//                 ></input>
-
-//                 <br/>
-
-//                 <input
-//                     type="text"
-//                     name="username"
-//                     placeholder="사용자명"
-//                     value={this.state.username}
-//                     onChange={this.handleChange}
-//                     onKeyPress={this.handleKeyPress}
-//                 ></input>
-//                 <button onClick={ this.handleClick}>확인</button>
-//             </div>
-//         )
-//     }
-// }
-
+/*
+ * input이 많아졌을 때 
+ * e.target.name을 활용하는 방법
+ */
 const EventPractice = () => {
-    const [username, setUsername] = useState('');
-    const [message, setMessage] = useState('');
+    // const [username, setUsername] = useState('');
+    // const [message, setMessage] = useState('');
+    //useState에 문자열이 아닌 객체를 넣는다.
+    const [form, setForm] = useState({ 
+        username: '',
+        message: ''
+    });
+    const {username, message} = form;
 
-    const onChangeUsername = e => setUsername(e.target.value);
-    const onChangeMessage = e => setMessage(e.target.value);
+    //const onChangeUsername = e => setUsername(e.target.value);
+    //const onChangeMessage = e => setMessage(e.target.value);
+    const onChange = e => {
+        const nextForm = {
+            ...form, // 기존의 form 내용을 이 자리에 복사한 뒤
+            [e.target.name]: e.target.value // 원하는 값을 덮어 씌우기
+        };
+        setForm(nextForm);
+    };
 
     const onClick = () => {
         alert(username + ': ' + message);
-        setUsername('');
-        setMessage('');
+        //setUsername('');
+        //setMessage('');
+        setForm({
+            username: '',
+            message: ''
+        });
     };
 
     const onKeyPress = e => {
@@ -82,7 +48,7 @@ const EventPractice = () => {
                 name="username"
                 placeholder="사용자명"
                 value={username}
-                onChange={onChangeUsername}
+                onChange={onChange}
             ></input>
             
             <br/>
@@ -92,7 +58,7 @@ const EventPractice = () => {
                 name="message"
                 placeholder="아무거나 입력하세요"
                 value={message}
-                onChange={onChangeMessage}
+                onChange={onChange}
                 onKeyPress={onKeyPress}
             ></input>
             <button onClick={onClick}>확인</button>
