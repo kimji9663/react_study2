@@ -25,6 +25,8 @@ class MyComponent extends Component {
 //     );
 // };
 
+
+//defaultProps, propTypes 설정 - 필수 사항은 아니지만 개발 능률에 도움됨
 MyComponent.defaultProps = {
     name: '기본이름',
     children: 'fldosada',
