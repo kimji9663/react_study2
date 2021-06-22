@@ -20,7 +20,14 @@ class Counter extends Component {
                 // onClick을 통해 버튼이 클릭되었을때 호출할 함수 지정
                 onClick={() => {
                     // this.setState를 통해 state에 새로운 값을 넣을 수 있다.
-                    this.setState({ number: number + 1 });
+                    this.setState(prevState => {
+                        return {
+                            number: prevState.number + 1
+                        };
+                    });
+                    this.setState(prevState => ({
+                        number: prevState.number + 1
+                    }));
                 }}
                 >
                     +1
