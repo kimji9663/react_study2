@@ -3,28 +3,36 @@ import React, { Component } from 'react';
 class EventPractice extends Component {
 
     state = {
+        username: '',
         message: ''
     }
 
-    constructor(props){
-        super(props);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-    }
+    // constructor(props){
+    //     super(props);
+    //     this.handleChange = this.handleChange.bind(this);
+    //     this.handleClick = this.handleClick.bind(this);
+    // }
 
-    handleChange(e){
+    handleChange = (e) => {
         this.setState({
-            message: e.target.value
+            [e.target.name]: e.target.value
         });
         //console.log(this.state.message)
     }
 
-    handleClick(){
-        alert(this.state.message);
+    handleClick = () => {
+        alert(this.state.username + ':' + this.state.message);
         this.setState({
+            username: '',
             message: ''
         });
         //console.log(this.state.message)
+    }
+
+    handleKeyPress = (e) => {
+        if(e.key === 'Enter'){
+            this.handleClick();
+        }
     }
     
     render() {
@@ -43,6 +51,23 @@ class EventPractice extends Component {
                         //     })
                         // }
                     } 
+                ></input>
+
+                <br/>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="사용자명"
+                    value={this.state.username}
+                    onChange={ this.handleChange
+                        // (e) => {
+                        //     this.setState({
+                        //         message: e.target.value
+                        //     })
+                        // }
+                    }
+                    onKeyPress={this.handleKeyPress}
                 ></input>
                 <button onClick={ this.handleClick
                     // () => {
