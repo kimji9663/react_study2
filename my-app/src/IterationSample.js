@@ -1,33 +1,16 @@
-import React from 'react';
-
-/** map 함수 알기
- * 기존 배열로 새로운 배열을 만드는 역할
-
- ** ES5 문법
-    var numbers = [1, 2, 3, 4, 5];
-    var result = numbers.map(function(num){
-      return num * num;
-      console.log(result);
-    });
-
- ** ES6 문법
-    const numbers = [1, 2, 3, 4, 5];
-    const result = number.map(num => num * num);
-    console.log(result);
- */
+import React, { useState } from 'react';
 
 const IterationSample = () => {
-    // return (
-    //     <ul>
-    //         <li>눈사람</li>
-    //         <li>얼음</li>
-    //         <li>눈</li>
-    //         <li>바람</li>
-    //     </ul>
-    // )
+    const [names, setNames] = useState([
+       { id: 1, text: '눈사람'}, 
+       { id: 2, text: '얼음'}, 
+       { id: 3, text: '눈'}, 
+       { id: 4, text: '바람'}
+      ]);
+    const [inputText, setInputText] = useState('');
+    const [nextId, setNextId] = useState(5); // 새로운 항목을 추가할 때 사용할 id
 
-    const names = ['눈사람', '얼음', '눈', '바람'];
-    const nameList = names.map((name, index) => <li key={index}>{name}</li>);
+    const nameList = names.map(name => <li key={name.id}>{name.text}</li>);
     return <ul>{nameList}</ul>;
 };
 
