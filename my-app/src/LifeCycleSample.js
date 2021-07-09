@@ -1,4 +1,4 @@
-import React, { Component, component } from 'react';
+import React, { Component } from 'react';
 
 class LifeCycleSample extends Component {
     state = {
@@ -74,7 +74,7 @@ class LifeCycleSample extends Component {
                 <h1 style={style} ref={ref => this.myRef=ref}>
                     {this.state.number}
                 </h1>
-                <p>color: {this.state.color}</p>
+                <p>color: {this.props.color}</p>
                 <button onClick={this.handleClick}>
                     더하기
                 </button>
