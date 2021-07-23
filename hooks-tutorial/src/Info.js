@@ -5,12 +5,12 @@ const Info = () => {
     const [nickname, setNickname] = useState('');
 
     useEffect(() => {
-        console.log('랜더링이 완료되었습니다.');
+        console.log('마운트 될 때만 실행됩니다.');
         console.log({
             name,
             nickname
         });
-    });
+    },[]);
 
     const onChangeName = e => {
         setName(e.target.value);
