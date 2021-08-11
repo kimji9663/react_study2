@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
+// useCallback: 컴포넌트가 최초 랜더링시에만 한번 함수를 만들고, 리렌더링 시에는 재사용 가능하다.
 import TodoInsert from "./components/TodoInsert";
 import TodoTemplate from "./components/TodoTemplate";
 import TodoList from "./components/TodoList";
@@ -20,11 +21,36 @@ const App = () => {
       text: '일정 관리 앱 만들어보기',
       checked: false,
     },
-  ])
+  ]);
+
+  const nextId = useRef(4);
+
+  const onInsert = useCallback( text => {
+    const todo = {
+      id: nextId.current,
+      text,
+      checked: false,
+    };
+    setTodos(todos.concat(todo));
+    nextId.current += 1;
+  }, [todos]);
+
+  const onRemove = useCallback( id => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  }, [todos]);
+
+  const onToggle = useCallback( id => {
+    setTodos(
+      todos.map(todo =>
+        todo.id === id ? {...todo, checked: !todo.checked} : todo,
+      ),
+    );
+  }, [todos]);
+
   return (
   <TodoTemplate>
-      <TodoInsert></TodoInsert>
-      <TodoList todos={todos}></TodoList>
+      <TodoInsert onInsert={onInsert}></TodoInsert>
+      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle}></TodoList>
   </TodoTemplate>
   );
 };
