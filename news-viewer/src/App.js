@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import NewsList from "./components/NewsList";
+import Categories from './components/Categories';
 
 const App = () => {
-  return <NewsList></NewsList>;
+  const [category, setCategory] = useState('all');
+  const onSelect = useCallback(category => setCategory(category), []);
+
+  return (
+    <>
+      <Categories category={category} onSelect={onSelect}></Categories>
+      <NewsList category={category}></NewsList>
+    </>
+  );
 };
 
 export default App;

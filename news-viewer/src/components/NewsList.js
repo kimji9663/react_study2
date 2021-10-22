@@ -16,14 +16,7 @@ const NewsListBlock = styled.div`
     }
 `;
 
-// const sampleArticle = {
-//     title: '제목',
-//     description: '내용',
-//     url: 'https://github.com/qkr30510/study_habit/commits/master',
-//     urlToImage: 'https://via.placeholder.com/160',
-// };
-
-const NewsList = () => {
+const NewsList = ({category}) => {
     const [articles, setArticles] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -32,6 +25,7 @@ const NewsList = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
+                const query = category === 'all' ? '' : `&category=${category}`;
                 const response = await axios.get(
                     'https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=e5f89ebdee5e4be88742d94cf55582c8',
                 );
