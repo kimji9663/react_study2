@@ -70,13 +70,15 @@ const Category = styled(NavLink)`
     }
 `;
 
-const Categories = () => {
+const Categories = ({ onSelect, category }) => {
     return (
         <CategoriesBlock>
-            {categories.map(c => (
+            {categories.map((c) => (
                 <Category
-                    key = {c.name}
-                    to = {`/${c.name}`}
+                    key={c.name}
+                    activeClassName="active"
+                    exact={c.name === 'all'}
+                    to={c.name === 'all' ? '/' : `/${c.name}`}
                 >
                     {c.text}
                 </Category>

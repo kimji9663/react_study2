@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import NewsItem from "./NewsItem";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import NewsItem from './NewsItem';
+import axios from 'axios';
 
 const NewsListBlock = styled.div`
-    box-sizing: border-box;
-    padding-bottom: 3rem;
-    width: 768px;
-    margin: 0 auto;
-    margin-top: 2rem;
-    @media screen and (max-width: 768px) {
-        width: 100%;
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
+  box-sizing: border-box;
+  padding-bottom: 3rem;
+  width: 768px;
+  margin: 0 auto;
+  margin-top: 2rem;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 `;
 
 const NewsList = ({category}) => {
@@ -27,7 +27,7 @@ const NewsList = ({category}) => {
             try {
                 const query = category === 'all' ? '' : `&category=${category}`;
                 const response = await axios.get(
-                    'https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=e5f89ebdee5e4be88742d94cf55582c8',
+                    'https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=313a293bddf041158e8e6f8f37beeae2',
                 );
                 setArticles(response.data.articles);
             } catch (e) {
@@ -40,7 +40,7 @@ const NewsList = ({category}) => {
 
     // 대기중 일 때
     if (loading) {
-        return <NewsListBlock>대기 중...</NewsListBlock>
+        return <NewsListBlock>대기 중...</NewsListBlock>;
     }
     // 아직 articles 값이 설정되지 않았을 때
     if (!articles) {
@@ -51,7 +51,7 @@ const NewsList = ({category}) => {
     return (
         <NewsListBlock>
             {articles.map(article => (
-                <NewsItem key={article.url} article={article}></NewsItem>
+                <NewsItem key={article.url} article={article} />
             ))}
         </NewsListBlock>
     );
