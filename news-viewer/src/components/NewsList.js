@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import NewsItem from "./NewsItem";
-import axios from "../../node_modules/axios/index";
+import axios from "axios";
 
 const NewsListBlock = styled.div`
     box-sizing: border-box;
@@ -27,7 +27,7 @@ const NewsList = ({category}) => {
             try {
                 const query = category === 'all' ? '' : `&category=${category}`;
                 const response = await axios.get(
-                    'https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=e5f89ebdee5e4be88742d94cf55582c8',
+                    'https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=e5f89ebdee5e4be88742d94cf55582c8',
                 );
                 setArticles(response.data.articles);
             } catch (e) {
@@ -36,7 +36,7 @@ const NewsList = ({category}) => {
             setLoading(false);
         };
         fetchData();
-    }, []);
+    }, [category]);
 
     // 대기중 일 때
     if (loading) {
