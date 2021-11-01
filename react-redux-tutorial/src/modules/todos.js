@@ -14,7 +14,7 @@ export const insert = text => ({
     todo: {
         id: id++,
         text,
-        done: flase
+        done: false
     }
 });
 
@@ -44,7 +44,7 @@ const initialState = {
     ]
 };
 
-function todos(state = initialState) {
+function todos(state = initialState, action) {
     switch (action.type) {
         case CHANGE_INPUT:
             return {
@@ -72,3 +72,5 @@ function todos(state = initialState) {
             return state;
     }
 }
+
+export default todos;
