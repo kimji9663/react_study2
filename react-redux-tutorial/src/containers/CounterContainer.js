@@ -1,6 +1,7 @@
 import React from "react";
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'; //connect 함수 추가
 import Counter from "../components/Counter";
+import { increase, decrease } from "../modules/counter";
 
 const CounterContainer = ({ number, increase, decrease }) => {
     return (
@@ -8,21 +9,13 @@ const CounterContainer = ({ number, increase, decrease }) => {
     );
 };
 
-const mapStateToProps = state => ({
-    number: state.counter.number,
-});
-
-const mapDispatchToProps = dispatch => ({
-    // 임시 함수
-    increase: () => {
-        console.log('increase');
-    },
-    decrease: () => {
-        console.log('decrease');
-    },
-});
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
+    state => ({
+        number: state.counter.number,
+    }),
+    {
+        // connect 함수가 내부적으로 bindActionCreators 작업을 대신해 줌
+        increase,
+        decrease,
+    },
 )(CounterContainer);
