@@ -1,5 +1,5 @@
 import React from "react";
-import { bindActionCreate } from 'react-redux';
+import { connect } from 'react-redux'; //connect 함수 추가
 import Counter from "../components/Counter";
 import { increase, decrease } from "../modules/counter";
 
@@ -13,13 +13,9 @@ export default connect(
     state => ({
         number: state.counter.number,
     }),
-    dispatch => 
-    bindActionCreate(
-        {
-            // 임시 함수
-            increase,
-            decrease,
-        },
-        dispatch
-    ),
+    {
+        // connect 함수가 내부적으로 bindActionCreators 작업을 대신해 줌
+        increase,
+        decrease,
+    },
 )(CounterContainer);
