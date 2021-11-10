@@ -1,38 +1,38 @@
 import Button from "./Button";
 import {useState, useEffect} from 'react';
 
+function Hello() {
+  // 작성방법1
+  // function destroyFn() {
+  //   console.log("destroyed :(");
+  // }
+  // function createFn() {
+  //   console.log("created :)");
+  //   return destroyFn; // 나타날 함수 안에 사라질 함수를 리턴
+  // }
+  // useEffect(createFn, []); // useEffect(나타날 함수, [])
+
+  // 작성방법2 <---추천
+  useEffect(() => {
+    console.log("created :)");
+    return() => console.log("destroyed :(");
+  }, [])
+
+  return <h1>Hello</h1>;
+}
+
 function App() {
-  // useState
-  const [counter, setValue] = useState(0); //초기값 0
-  const [keyword, setKeyword] = useState("");
-
-  // events
-  const onClick = () => setValue((prev) => prev + 1);
-  const onChange = (event) => setKeyword(event.target.value);
-  const irunOnlyOnce = () => {
-    console.log("I run only once"); // 한번만 실행
+  const [showing, setShowing] = useState(false);
+  const onClick = () => {
+    setShowing((prev) => !prev);
   }
-
-  // useEffect
-  useEffect(irunOnlyOnce, []);
-  useEffect(() => {
-    if (keyword != "" && keyword.length > 5){
-      console.log("Search for", keyword); // 키워드가 바뀔때만 실행
-    }
-  }, [keyword]);
-  useEffect(() => {
-    console.log("Change counter", counter); // 카운터가 바뀔때만 실행
-  }, [counter])
-
 
   return (
     <div>
-      <h1>{counter}</h1>
-      <input value={keyword} onChange={onChange} type="text" placeholder="Search here..." />
-      <br/>
-      <button onClick={onClick}>click me</button>
-      <br/>
-      <Button text={"continue"}></Button>
+      {/* hello가 보이게 하거나 안보이게 하거나 */}
+      {showing ? <Hello /> : null}
+      {/* 버튼명이 hide / show로 바뀜 */}
+      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
     </div>
   );
 }
