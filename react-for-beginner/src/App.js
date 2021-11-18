@@ -1,25 +1,27 @@
-import {useEffect, useState} from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import Detail from "./routes/Detail";
+import Home from "./routes/Home";
 
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [movies, setMovies] = useState([]);
-  const getMovies = async() => {
-    const response = await fetch(`https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`)
-    //then 대신 await-async 사용
-    const json = await response.json();
-    setMovies(json.data.movies);
-    setLoading(false);
-  }
-  useEffect(() => {
-    getMovies();
-  }, []);
-  console.log(movies);
-
   return (
-    <div>
-      {loading ? <h1>Loading</h1> : null}
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/hello">
+          <h1>Hello~</h1>
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+        <Route path="/movie/:id">
+          <Detail />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
