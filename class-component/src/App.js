@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from "prop-types";
 
 class App extends React.Component {
   state = { count: 0 }
@@ -12,7 +11,18 @@ class App extends React.Component {
     this.setState(current => ({count: current.count - 1}));
   }
 
+  componentDidMount() {
+    console.log("Component가 랜더링되었다.");
+  }
+  componentDidUpdate() {
+    console.log("업데이트 되었다.");
+  }
+  componentWillUnmount() {
+    console.log("component가 죽는다..");
+  }
+
   render() {
+    console.log("랜더링 중...")
     return (
       <div>
         <h1>Number {this.state.count}</h1>
