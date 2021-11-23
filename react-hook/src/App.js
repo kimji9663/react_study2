@@ -1,40 +1,33 @@
 import { useState } from 'react';
 
 // useInput component
-const useInput = (initialValue, validator) => { //intialValue = Mr., validator = maxLen(함수)
-  const [value, setValue] = useState(initialValue);
-  const onChange = event => {
-    console.log(event.target.value);
-    const {
-      target: {value} //Mr.
-    } = event;
-    
+const useInput = (initial, validator) => {
+  const [value, setValue] = useState(initial);
+  const onChange = (event) => {
+    const { target: {value} } = event;
+
     let willUpdate = true;
 
-    if (typeof validator === "function"){ // validator가 함수타입이면,
-      willUpdate = validator(value); // true 또는 false
+    if (typeof validator === "function"){
+      willUpdate = validator(value);
     }
 
-    if (willUpdate) {
+    if (willUpdate){
       setValue(value);
     }
-  };
-  return {value, onChange}; //props
-};
+  }
+  return {value, onChange};
+}
 
+//App
 const App = () => {
-  const maxLen = (value) => value.length <= 10; //함수
-  const name = useInput("Mr.", maxLen);
- 
+  const maxLength = (text) => text.length <= 10;
+  const name = useInput("Ms.", maxLength);
+
   return (
     <div className="App">
-      <h1>hello</h1>
-      <input type="text" placeholder="Name" {...name}></input>
-      {/* {...name} = value={name.value} onChange={onChange} */}
-      <br/>
-      <br/>
-      <h3 style={{marginBottom: 0}}>Test List</h3>
-      {name.value}
+      <input type="text" placeholder="mmm" value={name.value} onChange={name.onChange} />
+      {console.log(name)}
     </div>
   );
 }
