@@ -1,36 +1,33 @@
 import { useState } from 'react';
 
+const useTabs = (initialTabs, allTabs) => { // initial 초기값 = 0
+  const [currentIndex, setCurrentIndex] = useState(initialTabs);
+  if(!allTabs || !Array.isArray(allTabs)){
+    return;
+  }
+  return { currentItem: allTabs[currentIndex], changeItem: setCurrentIndex };
+};
 
 const content = [
   {
     tab: "Section 1",
-    content: "Im Section 1"
+    content: "Section 1 콘텐츠임.."
   },
   {
     tab: "Section 2",
-    content: "Im Section 2"
+    content: "Section 2 콘텐츠임.."
   }
 ]
 
-const useTabs = (initialTab, allTabs) => {
-  const [currentIndex, setCurrentIndex] = useState(initialTab);
-  if(!allTabs || !Array.isArray(allTabs)) {
-    return;
-  }
-  return {
-      currentItem: allTabs[currentIndex],
-      changeItem: setCurrentIndex
-  }
-}
 
 //App
 const App = () => {
   const { currentItem, changeItem } = useTabs(0, content);
   return (
     <div className="App">
-      {content.map((section, index) => (
-        <button onClick={() => changeItem(index)}>{section.tab}</button>
-      ))}
+      {content.map((cont, index)=>
+        <button type="button" onClick={() => changeItem(index)}>{cont.tab}</button>
+      )}
       <div>{currentItem.content}</div>
     </div>
   );
