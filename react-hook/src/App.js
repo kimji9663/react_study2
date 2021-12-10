@@ -1,24 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
-// useTitle 정의
-const useTitle = initialTitle => {
-  const [title, setTitle] = useState(initialTitle);
-  const updateTitle = () => {
-    const htmlTitle = document.querySelector("title");
-    htmlTitle.innerText = title;
-  };
-  useEffect(updateTitle, [title])
-  return setTitle;
-}
+
 
 //App
 const App = () => {
-  const titleUpdater = useTitle("Loading...");
-  setTimeout(() => titleUpdater("Home"), 5000);
+  const potiata = useRef();
+  //setTimeout(() => console.log(potiata.current), 5000) // <input placeholder="la">
+  
+  // '?'로 유효성 검사 후 실행
+  //setTimeout(() => potiata.current?.focus(), 5000); // 5초 뒤 포커스 됨
+
+  // useEffect로 마운트가 끝난 뒤에 실행
+  useEffect(() => {
+    setTimeout(() => potiata.current?.focus(), 5000); // 5초 뒤 포커스 됨
+  });
 
   return (
     <div className="App">
       <div>Hi</div>
+      <input ref={potiata} placeholder='la' />
     </div>
   );
 }
