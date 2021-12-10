@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react';
 
+// useTitle 정의
+const useTitle = initialTitle => {
+  const [title, setTitle] = useState(initialTitle);
+  const updateTitle = () => {
+    const htmlTitle = document.querySelector("title");
+    htmlTitle.innerText = title;
+  };
+  useEffect(updateTitle, [title])
+  return setTitle;
+}
 
 //App
 const App = () => {
-  const [ number, setNumber ] = useState(0);
-  const [ anumber, setAnumber ] = useState(0);
-
-  const sayHello = () => console.log("hello");
-  useEffect(sayHello, []);
+  const titleUpdater = useTitle("Loading...");
+  setTimeout(() => titleUpdater("Home"), 5000);
 
   return (
     <div className="App">
       <div>Hi</div>
-      <button type="button" onClick={() => setNumber(number + 1)}>{number}</button>
-      <button type="button" onClick={() => setAnumber(anumber + 1)}>{anumber}</button>
     </div>
   );
 }
