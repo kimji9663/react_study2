@@ -1,24 +1,32 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
-
+// useClick 정의
+const useClick = (onClick) => {
+  const element = useRef();
+  useEffect(() => {
+    if (typeof onClick !== "function"){
+      return;
+    }
+    if(element.current){
+      element.current.addEventListener("click", onClick);
+    }
+    return () => {
+      if(element.current){
+        element.current.removeListener("click", onClick);
+      }
+    }
+  }, [])
+  return typeof onClick !== "function" ? element : undefined;
+}
 
 //App
 const App = () => {
-  const potiata = useRef();
-  //setTimeout(() => console.log(potiata.current), 5000) // <input placeholder="la">
-  
-  // '?'로 유효성 검사 후 실행
-  //setTimeout(() => potiata.current?.focus(), 5000); // 5초 뒤 포커스 됨
-
-  // useEffect로 마운트가 끝난 뒤에 실행
-  useEffect(() => {
-    setTimeout(() => potiata.current?.focus(), 5000); // 5초 뒤 포커스 됨
-  });
+  const sayHello = () => console.log("say Hello!");
+  const title = useClick(sayHello);
 
   return (
     <div className="App">
-      <div>Hi</div>
-      <input ref={potiata} placeholder='la' />
+      <h1 ref={title}>Hi</h1>
     </div>
   );
 }
