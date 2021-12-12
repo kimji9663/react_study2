@@ -1,27 +1,27 @@
-import { useEffect, useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 // useClick 정의
 const useClick = (onClick) => {
-  const element = useRef();
+  const ref = useRef();
   useEffect(() => {
-    if (typeof onClick !== "function"){
-      return;
+    const element = ref.current;
+    if(element){
+      element.addEventListener("click", onClick);
     }
-    if(element.current){
-      element.current.addEventListener("click", onClick);
-    }
+
+    //ComponentwillUnmount
     return () => {
-      if(element.current){
-        element.current.removeListener("click", onClick);
+      if(element){
+        element.removeEventListener("click", onClick);
       }
     }
-  }, [])
-  return typeof onClick !== "function" ? element : undefined;
+  }, [onClick]);
+  return ref.current;
 }
 
 //App
 const App = () => {
-  const sayHello = () => console.log("say Hello!");
+  const sayHello = () => console.log("4q35534q");
   const title = useClick(sayHello);
 
   return (
