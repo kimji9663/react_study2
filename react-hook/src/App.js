@@ -1,30 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
-// useBeforeLeave 정의
-const useBeforeLeave = (onBefore) => {
+// useFadeIn 정의
+const useFadeIn = (duration = 1, delay = 0) => {
+  const element = useRef();
   useEffect(() => {
-    document.addEventListener("mouseleave", handle);
-    return () => document.removeEventListener("mouseleave", handle);
-  }, []);
-  if(typeof onBefore !== "function"){
-    return;
-  }
-  const handle = (event) => {
-    const { clientY } = event;
-    if(clientY <= 0){
-      onBefore();
+    if (element.current) {
+      const { current } = element;
+      current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
+      current.style.opacity = 1;
     }
-  }
-}
+  }, [])
+  if (typeof duration !== "number" || typeof delay !== "number"){
+    return;
+  };
+  return {ref: element, style: { opacity: '0' }};
+} 
 
 //App
 const App = () => {
-  const begForLife = () => console.log("정말로 정말로 떠나실건가요~ㅠㅠ");
-  useBeforeLeave(begForLife);
+  const fadeInH1 = useFadeIn(1, 2);
+  const fadeInP = useFadeIn(5, 10);
 
   return (
     <div className="App">
-      <h1>Hi</h1>
+      <h1 {...fadeInH1}>출석했습니다~</h1>
+      <p {...fadeInP}>난 지각생...</p>
     </div>
   );
 }
