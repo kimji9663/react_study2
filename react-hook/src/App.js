@@ -1,34 +1,28 @@
 import { useRef, useEffect } from 'react';
 
 // useClick 정의
-const useConfirm = (message = "", onConfirm, onCancel) => {
-  if (!onConfirm || typeof callback !== "function"){
-    console.log('onConfirm');
-    return;
+const usePreventLeave = () => {
+  const listener = event => {
+    event.preventDefault();
+    event.returnValue = "";
   }
-  if (onCancel && typeof onCancel !== "function"){
-    console.log('onCancel');
-    return;
+  const enablePrevent = () => {
+    window.addEventListener('beforeunload', listener);
   }
-  const confirmAction = () => {
-    if(window.confirm(message)){
-      onConfirm();
-    } else {
-      onCancel();
-    }
+  const disablePrevent = () => {
+    window.removeEventListener('beforeunload', listener);
   }
-  return confirmAction;
+  return { enablePrevent, disablePrevent }
 }
 
 //App
 const App = () => {
-  const deleteWorld = () => console.log("삭제됨...");
-  const abort = () => console.log("취소됨..");
-  const confirmDelete = useConfirm("정말 삭제하시겠습니까?", deleteWorld, abort);
+  const { enablePrevent, disablePrevent } = usePreventLeave();
 
   return (
     <div className="App">
-      <button onClick={confirmDelete}>Delete</button>
+      <button onClick={enablePrevent}>Protect</button>
+      <button onClick={disablePrevent}>Unprotect</button>
     </div>
   );
 }
