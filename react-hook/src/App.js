@@ -1,32 +1,34 @@
 import { useRef, useEffect } from 'react';
 
 // useClick 정의
-const useClick = (onClick) => {
-  const ref = useRef();
-  useEffect(() => {
-    const element = ref.current;
-    if(element){
-      element.addEventListener("click", onClick);
+const useConfirm = (message = "", onConfirm, onCancel) => {
+  if (!onConfirm || typeof callback !== "function"){
+    console.log('onConfirm');
+    return;
+  }
+  if (onCancel && typeof onCancel !== "function"){
+    console.log('onCancel');
+    return;
+  }
+  const confirmAction = () => {
+    if(window.confirm(message)){
+      onConfirm();
+    } else {
+      onCancel();
     }
-
-    //ComponentwillUnmount
-    return () => {
-      if(element){
-        element.removeEventListener("click", onClick);
-      }
-    }
-  }, [onClick]);
-  return ref.current;
+  }
+  return confirmAction;
 }
 
 //App
 const App = () => {
-  const sayHello = () => console.log("4q35534q");
-  const title = useClick(sayHello);
+  const deleteWorld = () => console.log("삭제됨...");
+  const abort = () => console.log("취소됨..");
+  const confirmDelete = useConfirm("정말 삭제하시겠습니까?", deleteWorld, abort);
 
   return (
     <div className="App">
-      <h1 ref={title}>Hi</h1>
+      <button onClick={confirmDelete}>Delete</button>
     </div>
   );
 }
