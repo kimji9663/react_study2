@@ -1,30 +1,35 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
-// useFadeIn 정의
-const useFadeIn = (duration = 1, delay = 0) => {
-  const element = useRef();
-  useEffect(() => {
-    if (element.current) {
-      const { current } = element;
-      current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
-      current.style.opacity = 1;
+// useNetwork 정의
+const useNetwork = onchange => {
+  const handleChange = () => {
+    if (typeof onchange === "function"){
+      onchange(navigator.onLine);
     }
-  }, [])
-  if (typeof duration !== "number" || typeof delay !== "number"){
-    return;
+    setStatus(navigator.onLine);
   };
-  return {ref: element, style: { opacity: '0' }};
-} 
+  useEffect(() => {
+    window.addEventListener("online", handleChange);
+    window.addEventListener("offline", handleChange);
+    return () => {
+      window.removeEventListener("online", handleChange);
+      window.removeEventListener("offline", handleChange);
+    }
+  }, []) 
+  const [status, setStatus] = useState(navigator.onLine);
+  return status;
+}
 
 //App
 const App = () => {
-  const fadeInH1 = useFadeIn(1, 2);
-  const fadeInP = useFadeIn(5, 10);
+  const handleNetworkChange = (online) => {
+    console.log(online ? "온라인이 되었습니다." : "오프라인이 되었습니다.")
+  }
+  const onLine = useNetwork(handleNetworkChange);
 
   return (
     <div className="App">
-      <h1 {...fadeInH1}>출석했습니다~</h1>
-      <p {...fadeInP}>난 지각생...</p>
+      <h1>{onLine ? "online" : "offline"}</h1>
     </div>
   );
 }
