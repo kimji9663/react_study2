@@ -1,28 +1,30 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 
-// useClick 정의
-const usePreventLeave = () => {
-  const listener = event => {
-    event.preventDefault();
-    event.returnValue = "";
+// useBeforeLeave 정의
+const useBeforeLeave = (onBefore) => {
+  useEffect(() => {
+    document.addEventListener("mouseleave", handle);
+    return () => document.removeEventListener("mouseleave", handle);
+  }, []);
+  if(typeof onBefore !== "function"){
+    return;
   }
-  const enablePrevent = () => {
-    window.addEventListener('beforeunload', listener);
+  const handle = (event) => {
+    const { clientY } = event;
+    if(clientY <= 0){
+      onBefore();
+    }
   }
-  const disablePrevent = () => {
-    window.removeEventListener('beforeunload', listener);
-  }
-  return { enablePrevent, disablePrevent }
 }
 
 //App
 const App = () => {
-  const { enablePrevent, disablePrevent } = usePreventLeave();
+  const begForLife = () => console.log("정말로 정말로 떠나실건가요~ㅠㅠ");
+  useBeforeLeave(begForLife);
 
   return (
     <div className="App">
-      <button onClick={enablePrevent}>Protect</button>
-      <button onClick={disablePrevent}>Unprotect</button>
+      <h1>Hi</h1>
     </div>
   );
 }
