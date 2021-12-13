@@ -1,32 +1,30 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 
-// useClick 정의
-const useClick = (onClick) => {
-  const ref = useRef();
+// useBeforeLeave 정의
+const useBeforeLeave = (onBefore) => {
   useEffect(() => {
-    const element = ref.current;
-    if(element){
-      element.addEventListener("click", onClick);
+    document.addEventListener("mouseleave", handle);
+    return () => document.removeEventListener("mouseleave", handle);
+  }, []);
+  if(typeof onBefore !== "function"){
+    return;
+  }
+  const handle = (event) => {
+    const { clientY } = event;
+    if(clientY <= 0){
+      onBefore();
     }
-
-    //ComponentwillUnmount
-    return () => {
-      if(element){
-        element.removeEventListener("click", onClick);
-      }
-    }
-  }, [onClick]);
-  return ref.current;
+  }
 }
 
 //App
 const App = () => {
-  const sayHello = () => console.log("4q35534q");
-  const title = useClick(sayHello);
+  const begForLife = () => console.log("정말로 정말로 떠나실건가요~ㅠㅠ");
+  useBeforeLeave(begForLife);
 
   return (
     <div className="App">
-      <h1 ref={title}>Hi</h1>
+      <h1>Hi</h1>
     </div>
   );
 }
