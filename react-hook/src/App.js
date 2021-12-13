@@ -1,30 +1,35 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-// useBeforeLeave 정의
-const useBeforeLeave = (onBefore) => {
-  useEffect(() => {
-    document.addEventListener("mouseleave", handle);
-    return () => document.removeEventListener("mouseleave", handle);
-  }, []);
-  if(typeof onBefore !== "function"){
-    return;
-  }
-  const handle = (event) => {
-    const { clientY } = event;
-    if(clientY <= 0){
-      onBefore();
+// useNetwork 정의
+const useNetwork = onchange => {
+  const handleChange = () => {
+    if (typeof onchange === "function"){
+      onchange(navigator.onLine);
     }
-  }
+    setStatus(navigator.onLine);
+  };
+  useEffect(() => {
+    window.addEventListener("online", handleChange);
+    window.addEventListener("offline", handleChange);
+    return () => {
+      window.removeEventListener("online", handleChange);
+      window.removeEventListener("offline", handleChange);
+    }
+  }, []) 
+  const [status, setStatus] = useState(navigator.onLine);
+  return status;
 }
 
 //App
 const App = () => {
-  const begForLife = () => console.log("정말로 정말로 떠나실건가요~ㅠㅠ");
-  useBeforeLeave(begForLife);
+  const handleNetworkChange = (online) => {
+    console.log(online ? "온라인이 되었습니다." : "오프라인이 되었습니다.")
+  }
+  const onLine = useNetwork(handleNetworkChange);
 
   return (
     <div className="App">
-      <h1>Hi</h1>
+      <h1>{onLine ? "online" : "offline"}</h1>
     </div>
   );
 }
