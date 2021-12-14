@@ -1,30 +1,40 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-// useScroll 정의
-const useScroll = () => {
-  const [state, setState] = useState({
-    x: 0,
-    y: 0
-  });
-
-  useEffect(() => {
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const onScroll = event => {
-    setState({y : window.scrollY, x : window.scrollX});
+// useFullscreen 정의
+const useFullscreen = (callback) => {
+  const element = useRef();
+  const triggerFull = () => {
+    if (element.current){
+      element.current.requestFullscreen();
+      if(callback && typeof callback === "function"){
+        callback(true);
+      }
+    }
   };
-
-  return state;
-};
+  const exitFull = () => {
+    document.exitFullscreen();
+    if(callback && typeof callback === "function"){
+      callback(false);
+    }
+  }
+  return {element, triggerFull, exitFull};
+}
 
 //App
 const App = () => {
-  const {y} = useScroll();
+  const onFullS = (isFull) => {
+    console.log(isFull ? "We are full" : "We are small");
+  }
+  const { element, triggerFull, exitFull } = useFullscreen(onFullS);
   return (
     <div className="App" style={{ height: "1000vh" }}>
-      <h1 style={{ position: "fixed", color: y > 100 ? "red" : "blue" }}>Hi</h1>
+      <div ref={element}>
+        <img
+          src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+        ></img>
+        <button onClick={exitFull}>풀스크린 나가기</button>
+      </div>
+      <button onClick={triggerFull}>풀스크린으로 보기</button>
     </div>
   );
 }
