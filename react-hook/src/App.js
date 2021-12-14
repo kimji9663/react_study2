@@ -1,35 +1,30 @@
 import { useEffect, useState } from 'react';
 
-// useNetwork 정의
-const useNetwork = onchange => {
-  const handleChange = () => {
-    if (typeof onchange === "function"){
-      onchange(navigator.onLine);
-    }
-    setStatus(navigator.onLine);
-  };
+// useScroll 정의
+const useScroll = () => {
+  const [state, setState] = useState({
+    x: 0,
+    y: 0
+  });
+
   useEffect(() => {
-    window.addEventListener("online", handleChange);
-    window.addEventListener("offline", handleChange);
-    return () => {
-      window.removeEventListener("online", handleChange);
-      window.removeEventListener("offline", handleChange);
-    }
-  }, []) 
-  const [status, setStatus] = useState(navigator.onLine);
-  return status;
-}
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const onScroll = event => {
+    setState({y : window.scrollY, x : window.scrollX});
+  };
+
+  return state;
+};
 
 //App
 const App = () => {
-  const handleNetworkChange = (online) => {
-    console.log(online ? "온라인이 되었습니다." : "오프라인이 되었습니다.")
-  }
-  const onLine = useNetwork(handleNetworkChange);
-
+  const {y} = useScroll();
   return (
-    <div className="App">
-      <h1>{onLine ? "online" : "offline"}</h1>
+    <div className="App" style={{ height: "1000vh" }}>
+      <h1 style={{ position: "fixed", color: y > 100 ? "red" : "blue" }}>Hi</h1>
     </div>
   );
 }
