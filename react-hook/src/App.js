@@ -1,30 +1,19 @@
-import { useState } from 'react';
-
-const content = [
-  {
-    tab: 'Section1',
-    content: 'Section 1입니다.'
-  },
-  {
-    tab: 'Section2',
-    contents: 'Section 2입니다.'
-  }
-]
-
-const useTabs = (initialTab, allTabs) => {
-  
-}
+//import UseConfirm from './component/UseConfirm';
+//import UsePreventLeave from './component/UsePreventLeave';
+//import UseBeforeLeave from './component/UseBeforeLeave';
+//import UseFadeIn from './component/UseFadeIn';
+//import UseNetwork from './component/UseNetwork';
+//import UseScroll from './component/UseScroll';
+//import UseFullscreen from './component/UseFullscreen';
+import UseAxios from './component/UseAxios';
+//import UseNotification from './component/UseNotification';
+//import UseEffect from './component/UseEffect';
+//import UseTitle from './component/UseTitle';
 
 //App
 const App = () => {
-
   return (
-    <div className="App">
-      <h2>Hello</h2>
-      {content.map( section => (
-        <button type="button">{section.tab}</button>
-      ))}
-    </div>
+    <UseAxios></UseAxios>
   );
 }
 
