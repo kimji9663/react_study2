@@ -2,18 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import App from "./screens/App";
 import 'antd/dist/antd.css';
-import {StoreProvider} from "./states/Context";
-import {RootStore} from "./states/RootStore";
+import StoreProvider from './states/Context';
+import {RootStore} from './states/RootStore';
 
 const rootStore = new RootStore();
 
 ReactDOM.render(
     <React.StrictMode>
-        <StoreProvider value={rootStore}>
+        <StoreContext.Provider value={rootStore}>
             <App/>
-        </StoreProvider>
+        </StoreContext.Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );
