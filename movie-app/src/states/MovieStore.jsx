@@ -34,4 +34,11 @@ export class MovieStore {
             new Movie(3, 'John Wick', 0),
         ]
     }
+
+    createMovie(title, rate){
+        this.movies = [
+            ...this.movies,
+            new Movie(this.movies[this.movies.length - 1].id + 1, title, rate)
+        ]
+    }
 }
