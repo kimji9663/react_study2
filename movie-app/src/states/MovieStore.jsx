@@ -22,7 +22,8 @@ export class MovieStore {
 
     constructor(root){
         makeObservable(this, {
-            movies:observable,
+            movies: observable,
+            createMovie: action,
         })
 
         this.rootStore = root;
@@ -38,7 +39,7 @@ export class MovieStore {
     createMovie(title, rate){
         this.movies = [
             ...this.movies,
-            new Movie(this.movies[this.movies.length - 1].id + 1, title, rate)
+            new Movie(this.movies[this.movies.length - 1].id + 1, title, rate),
         ]
     }
 }

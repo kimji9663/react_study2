@@ -5,21 +5,44 @@ import {useStores} from "../states/Context";
 import {observer} from "mobx-react";
 
 export default observer(() => {
+
+    const [isModalVisible, setIsModalVisible] = React.useState(false);
+
+    const {isModalOpen, setIsModalOpen} = React.useState(false);
+    const {newRate, setNewRate} = React.useState(0);
+    const {newTitle, setNewTitle} = React.useState('');
     const {movieStore} = useStores();
+
+    const onModalOk = () => {
+        setIsModalVisible(false);
+        movieStore.createMovie(newTitle, newRate);
+        setNewRate(0);
+        setNewTitle('');
+    }
 
     return (
         <>
             <Row justify='center'>
-                <Button type='primary' danger>추가</Button>
+                <Button type='primary' danger onClick={() => setIsModalVisible(true)}>추가</Button>
             </Row>
             <Divider></Divider>
-            <Row justify='center'>
-                <Card>card</Card>
-            </Row>
-            <Modal>
+            {
+                movieStore.movies.map(
+                    (x) => (
+                        <>
+                            <Row justify='center'>
+                                <Card>card</Card>
+                            </Row>
+                        </>
+                    )
+                )
+            }
+            
+            <Modal title="Basic Modal" visible={isModalVisible} onOk={onModalOk} onCancel={() => setIsModalVisible(false)}>
                 <Input placeholder='제목을 입력해주세요.'></Input>
                 <Rate></Rate>
             </Modal>
+
         </>
     )
 })
