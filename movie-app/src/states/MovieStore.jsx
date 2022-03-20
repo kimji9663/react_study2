@@ -24,6 +24,7 @@ export class MovieStore {
         makeObservable(this, {
             movies: observable,
             createMovie: action,
+            changeRate: action,
         })
 
         this.rootStore = root;
@@ -40,6 +41,15 @@ export class MovieStore {
         this.movies = [
             ...this.movies,
             new Movie(this.movies[this.movies.length - 1].id + 1, title, rate),
+        ]
+    }
+    changeRate(id, rate){
+        const idx = this.movies.findIndex((item) => item.id === id);
+        const movie = this.movies[idx];
+        this.movies = [
+            ...this.movies.slice(0, idx),
+            new Movie(movie.id, movie.title, rate),
+            ...this.movies.slice(idx + 1, this.movies.length),
         ]
     }
 }
