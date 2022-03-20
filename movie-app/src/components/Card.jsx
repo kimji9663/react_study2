@@ -6,9 +6,9 @@ export default({title, onChange, rate, onDelete}) => {
     return (
         <>
             <Card>
-                <h4>title</h4>
+                <h4>{title}</h4>
                 <div>
-                    <Rate></Rate>
+                    <Rate value={rate} onChange={onChange}></Rate>
                 </div>
             </Card>
         </>

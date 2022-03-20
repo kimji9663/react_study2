@@ -7,8 +7,6 @@ import {observer} from "mobx-react";
 export default observer(() => {
 
     const [isModalVisible, setIsModalVisible] = React.useState(false);
-
-    const {isModalOpen, setIsModalOpen} = React.useState(false);
     const {newRate, setNewRate} = React.useState(0);
     const {newTitle, setNewTitle} = React.useState('');
     const {movieStore} = useStores();
@@ -18,6 +16,10 @@ export default observer(() => {
         movieStore.createMovie(newTitle, newRate);
         setNewRate(0);
         setNewTitle('');
+    }
+
+    const onExistingRateChange = (id, value) => {
+        movieStore.changeRate(id, value);
     }
 
     return (
@@ -31,7 +33,8 @@ export default observer(() => {
                     (x) => (
                         <>
                             <Row justify='center'>
-                                <Card>card</Card>
+                                <Card key={x.id} title={x.title} rate={x.rate}
+                                onChange={(value) => onExistingRateChange(x.id, value)} />
                             </Row>
                         </>
                     )
