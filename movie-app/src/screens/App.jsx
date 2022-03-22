@@ -7,21 +7,21 @@ import {observer} from "mobx-react";
 export default observer(() => {
 
     const [isModalOpen, setIsModalOpen] = React.useState(false);
-    const {newRate, setNewRate} = React.useState(0);
-    const {newTitle, setNewTitle} = React.useState('');
+    const [newRate, setNewRate] = React.useState(0);
+    const [newTitle, setNewTitle] = React.useState('');
     const {movieStore} = useStores();
 
     const onRateChange = (value) => {
         setNewRate(value);
     }
-    const onTitleChange = (e) => {
+    const onChangeTitle = (e) => {
         setNewTitle(e.target.value);
     }
     const onModalOk = () => {
-        setIsModalOpen(false);
         movieStore.createMovie(newTitle, newRate);
         setNewRate(0);
         setNewTitle('');
+        setIsModalOpen(false);
     }
 
     const onExistingRateChange = (id, value) => {
@@ -31,10 +31,7 @@ export default observer(() => {
     return (
         <>
             <Row justify='center'>
-                <Button type='primary' danger onClick={() => setIsModalVisible(true)}>추가</Button>
-                
-                {newTitle}
-                {newRate}
+                <Button type='primary' danger onClick={() => setIsModalOpen(true)}>추가</Button>
             </Row>
             <Divider></Divider>
             {
@@ -50,7 +47,7 @@ export default observer(() => {
                 )
             }
             <Modal title="추가하기" visible={isModalOpen} onOk={onModalOk} onCancel={() => setIsModalOpen(false)}>
-                <Input placeholder="영화의 이름을 입력 해주세요." value={newTitle} onChange={(e) => setNewTitle(e.target.value)}/>
+                <Input placeholder="영화의 이름을 입력 해주세요." value={newTitle} onChange={onChangeTitle}/>
                 <Rate onChange={onRateChange} value={newRate}/>
             </Modal>
 
