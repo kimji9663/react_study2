@@ -6,16 +6,22 @@ import {observer} from "mobx-react";
 
 export default observer(() => {
 
-    const [isModalVisible, setIsModalVisible] = React.useState(false);
-    const {newRate, setNewRate} = React.useState(0);
-    const {newTitle, setNewTitle} = React.useState('');
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [newRate, setNewRate] = React.useState(0);
+    const [newTitle, setNewTitle] = React.useState('');
     const {movieStore} = useStores();
 
+    const onRateChange = (value) => {
+        setNewRate(value);
+    }
+    const onChangeTitle = (e) => {
+        setNewTitle(e.target.value);
+    }
     const onModalOk = () => {
-        setIsModalVisible(false);
         movieStore.createMovie(newTitle, newRate);
         setNewRate(0);
         setNewTitle('');
+        setIsModalOpen(false);
     }
 
     const onExistingRateChange = (id, value) => {
@@ -25,7 +31,7 @@ export default observer(() => {
     return (
         <>
             <Row justify='center'>
-                <Button type='primary' danger onClick={() => setIsModalVisible(true)}>추가</Button>
+                <Button type='primary' danger onClick={() => setIsModalOpen(true)}>추가</Button>
             </Row>
             <Divider></Divider>
             {
@@ -40,10 +46,9 @@ export default observer(() => {
                     )
                 )
             }
-            
-            <Modal title="Basic Modal" visible={isModalVisible} onOk={onModalOk} onCancel={() => setIsModalVisible(false)}>
-                <Input placeholder='제목을 입력해주세요.'></Input>
-                <Rate></Rate>
+            <Modal title="추가하기" visible={isModalOpen} onOk={onModalOk} onCancel={() => setIsModalOpen(false)}>
+                <Input placeholder="영화의 이름을 입력 해주세요." value={newTitle} onChange={onChangeTitle}/>
+                <Rate onChange={onRateChange} value={newRate}/>
             </Modal>
 
         </>
