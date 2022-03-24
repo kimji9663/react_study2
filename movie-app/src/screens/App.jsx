@@ -28,6 +28,10 @@ export default observer(() => {
         movieStore.changeRate(id, value);
     }
 
+    const onDelete = (id) => {
+        movieStore.deleteMovie(id);
+    }
+
     return (
         <>
             <Row justify='center'>
@@ -35,12 +39,14 @@ export default observer(() => {
             </Row>
             <Divider></Divider>
             {
-                movieStore.movies.map(
+                movieStore.movies.map( 
                     (x) => (
                         <>
                             <Row justify='center'>
                                 <Card key={x.id} title={x.title} rate={x.rate}
-                                onChange={(value) => onExistingRateChange(x.id, value)} />
+                                    onChange={(value) => onExistingRateChange(x.id, value)} 
+                                    onDelete={() => onDelete(x.id)}
+                                />
                             </Row>
                         </>
                     )
@@ -50,7 +56,6 @@ export default observer(() => {
                 <Input placeholder="영화의 이름을 입력 해주세요." value={newTitle} onChange={onChangeTitle}/>
                 <Rate onChange={onRateChange} value={newRate}/>
             </Modal>
-
         </>
     )
 })
