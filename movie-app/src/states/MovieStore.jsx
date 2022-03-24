@@ -52,4 +52,9 @@ export class MovieStore {
             ...this.movies.slice(idx + 1, this.movies.length),
         ]
     }
+    deleteMovie(id){
+        this.movies = [
+            ...this.movies.filter((item) => item.id !== id)
+        ]
+    }
 }
