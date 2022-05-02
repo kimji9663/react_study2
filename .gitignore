@@ -1,0 +1,7 @@
+# Mac files
+.DS_Store
+
+# default
+node_modules
+dist/*
+*.log
