@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { HeaderContainer } from './index.style';
 
 function Header() {
   return (
-    <div className="container">
-      <nav className="global_nav">
+    <HeaderContainer className={`container`}>
+      <nav className={`global_nav`}>
         <ul className="global_nav_links">
           <li>
             <Link to="/" className="global_nav_item">Home</Link>
@@ -14,7 +15,7 @@ function Header() {
           </li>
         </ul>
       </nav>
-    </div>
+    </HeaderContainer>
   );
 }
 

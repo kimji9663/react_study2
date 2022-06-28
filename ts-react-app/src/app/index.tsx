@@ -1,7 +1,10 @@
-import React from 'react'
+import * as React from 'react'
+
 import PrimaryLayout from '../views/PrimaryLayout'
 
-function App() {
+interface Props {}
+
+const App = ({ }: Props) => {
   return (
     <>
       <PrimaryLayout />

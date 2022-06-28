@@ -1,6 +1,8 @@
-import React from 'react'
 
-function Blog() {
+import React from 'react'
+interface Props {}
+
+const Blog = ({ }: Props) => {
   return (
     <div>Blog</div>
   );
