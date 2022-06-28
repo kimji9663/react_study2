@@ -1,14 +1,21 @@
+
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Header from '../PrimaryLayout/Header'
 import Footer from '../PrimaryLayout/Footer'
 import Home from '../Home'
 import Blog from '../Blog'
 
-function PrimaryLayout() {
+//css
+import { Global } from '@emotion/react'
+import { GlobalStyle } from '../../styles/base.styles'
+
+interface Props {}
+const PrimaryLayout = ({ }: Props) => {
   return (
     <>
       <BrowserRouter>
+        <Global styles={GlobalStyle} />
         <Header />
           <Routes>
             <Route path='/' element={<Home />}></Route>

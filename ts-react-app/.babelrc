@@ -1,0 +1,16 @@
+{
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": { "browsers": ["last 2 versions", ">= 5% in KR"] },
+          "modules": false,
+          "useBuiltIns": "usage",
+          "corejs": 3
+        }
+      ],
+     // "@babel/preset-typescript",
+      "@babel/react",
+      "@babel/typescript" // Typescript(타입스크립트)가 컴파일 가능하도록 추가
+    ]
+  }
