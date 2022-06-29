@@ -17,6 +17,10 @@ module.exports = {
   mode: 'development',
   resolve: {
     extensions: ['.js', '.json', '.ts', '.tsx'],
+    alias: {
+			"@/": path.resolve(__dirname, "./src/"),
+      "@styles/": path.resolve(__dirname, "./src/styles/"),
+		},
   },
   devtool: 'source-map',
   module: {

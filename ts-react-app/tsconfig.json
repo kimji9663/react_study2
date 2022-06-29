@@ -1,11 +1,14 @@
 {
-  //"extends": "./tsconfig.path.json",
   "compilerOptions": {
     "types": [
       "react/next", 
       "react-dom/next", 
     ],
     "baseUrl": "src",
+    "paths": {
+      "@/*": ["src/*"],
+      "@styles/*": ["styles/*"],
+    },
     "outDir": "./dist",
     "target": "es6",
     "module": "esnext",
@@ -38,5 +41,5 @@
     "src/setupTests.ts",
     "./node_modules/**/*"
   ],
-  "include": ["./src/**/*", "@type"]
+  "include": ["src", "@type"]
 }

@@ -1,17 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { HeaderContainer } from './index.style';
+import { globalNav, navLinks, navItem } from './index.css'
 
 function Header() {
   return (
-    <HeaderContainer className={`container`}>
-      <nav className={`global_nav`}>
-        <ul className="global_nav_links">
+    <HeaderContainer className="container">
+      <nav className={globalNav}>
+        <ul className={navLinks}>
           <li>
-            <Link to="/" className="global_nav_item">Home</Link>
+            <Link to="/" className={navItem}>Home</Link>
           </li>
           <li>
-            <Link to="/blog" className="global_nav_item">Blog</Link>
+            <Link to="/blog" className={navItem}>Blog</Link>
           </li>
         </ul>
       </nav>

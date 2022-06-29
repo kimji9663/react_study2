@@ -7,15 +7,13 @@ import Home from '../Home'
 import Blog from '../Blog'
 
 //css
-import { Global } from '@emotion/react'
-import { GlobalStyle } from '../../styles/base.styles'
+import '../../styles/global.css'
 
 interface Props {}
 const PrimaryLayout = ({ }: Props) => {
   return (
     <>
       <BrowserRouter>
-        <Global styles={GlobalStyle} />
         <Header />
           <Routes>
             <Route path='/' element={<Home />}></Route>
