@@ -16,6 +16,7 @@ export const showScene3 = style({
 export const scrollSectionCommon = style({
   position: 'relative',
   paddingTop: '50vh',
+  border: '1px solid red',
 })
 
 export const scrollSec0 = {
@@ -57,19 +58,20 @@ export const mainMessagewerw = style({
 export const stickyElem = style({
   display: 'none',
   position: 'fixed',
+  top: 0,
   left: 0,
   width: '100%',
   selectors: {
-    [`${showScene0} ${scrollSec0.root} &`]: {
+    [`#show_scroll_section_0 #scroll_section_0 &`]: {
       display: 'block'
     },
-    [`${showScene1} ${scrollSec1.root} &`]: {
+    [`#show_scroll_section_1 #scroll_section_1 &`]: {
       display: 'block'
     },
-    [`${showScene2} ${scrollSec2.root} &`]: {
+    [`#show_scroll_section_2 #scroll_section_2 &`]: {
       display: 'block'
     },
-    [`${showScene3} ${scrollSec3.root} &`]: {
+    [`#show_scroll_section_3 #scroll_section_3 &`]: {
       display: 'block'
     },
   }
