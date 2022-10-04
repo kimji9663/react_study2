@@ -8,8 +8,15 @@ interface SceneInfo {
   type: string
   heightNum: number
   scrollHeight: number
-  objs?: {
+  objs: {
     container: Element | null
+    messageA?: Element | null
+    messageB?: Element | null
+    messageC?: Element | null
+    messageD?: Element | null
+  }
+  values?: {
+    messageA_opacity: number[]
   }
 }
 
@@ -20,8 +27,15 @@ const sceneInfo: SceneInfo[] = [
     heightNum: 5, // 스크롤 높이 = 화면 높이 * heightNum
     scrollHeight: 0,
     objs: {
-      container: document.querySelector('#scroll-section-0')
-    }
+      container: document.querySelector('#scroll_section_0'),
+      messageA: document.querySelector(`#scroll_section_0 ${mainMessage.root} .a`),
+      messageB: document.querySelector(`#scroll_section_0 ${mainMessage.root} .b`),
+      messageC: document.querySelector(`#scroll_section_0 ${mainMessage.root} .c`),
+      messageD: document.querySelector(`#scroll_section_0 ${mainMessage.root} .d`),
+    },
+    values: {
+      messageA_opacity: [0, 1],
+    },
   },
   {
     id: 1,
@@ -29,7 +43,7 @@ const sceneInfo: SceneInfo[] = [
     heightNum: 1,
     scrollHeight: 0,
     objs: {
-      container: document.querySelector('#scroll-section-1')
+      container: document.querySelector('#scroll_section_1')
     }
   },
   {
@@ -38,7 +52,7 @@ const sceneInfo: SceneInfo[] = [
     heightNum: 5,
     scrollHeight: 0,
     objs: {
-      container: document.querySelector('#scroll-section-2')
+      container: document.querySelector('#scroll_section_2')
     }
   },
   {
@@ -47,7 +61,7 @@ const sceneInfo: SceneInfo[] = [
     heightNum: 5,
     scrollHeight: 0,
     objs: {
-      container: document.querySelector('#scroll-section-3')
+      container: document.querySelector('#scroll_section_3')
     }
   },
 ]
@@ -62,19 +76,47 @@ function Home() {
     sceneInfo[0].scrollHeight,
     sceneInfo[1].scrollHeight,
     sceneInfo[2].scrollHeight,
-    sceneInfo[3].scrollHeight
+    sceneInfo[3].scrollHeight,
   ])
 
   function setLayout() {
     // 각 스크롤 섹션의 높이 세팅
     for (let i = 0; i < sceneInfo.length; i++) {
       sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight
-      //sceneInfo[i].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`
+      //sceneInfo[i].objs.container.style.height = `${sceneInfo[i].scrollHeight}px` //setHeight
     }
-    //console.log(sceneInfo)
+
+    let totalScrollHeight = 0
+    for (let i = 0; i < sceneInfo.length; i++) {
+      totalScrollHeight += sceneInfo[i].scrollHeight
+      if (totalScrollHeight >= yOffset) {
+        currentScene = i
+        break
+      }
+    }
+    document.body.setAttribute('id', `show_scene_${currentScene}`)
   }
-  //window.addEventListener('resize', setLayout)
-  setLayout()
+
+  function calcValues(values) {
+    
+  }
+
+  function playAnimation() {
+    switch (currentScene) {
+      case 0:
+        console.log('0 play')
+        break
+      case 1:
+        console.log('1 play')
+        break
+      case 2:
+        console.log('2 play')
+        break
+      case 3:
+        console.log('3 play')
+        break
+    }
+  }
 
   function scrollLoop() {
     prevScrollHeight = 0
@@ -84,16 +126,17 @@ function Home() {
 
     if (yOffset > (prevScrollHeight + sceneInfo[currentScene].scrollHeight)) {
       currentScene++
+      document.body.setAttribute('id', `show_scene_${currentScene}`)
     }
 
     if (yOffset < prevScrollHeight) {
       if (currentScene === 0) return
       currentScene--
+      document.body.setAttribute('id', `show_scene_${currentScene}`)
     }
 
-    document.body.setAttribute('id', `show_scroll_section_${currentScene}`)
-
-    console.log(currentScene)
+    playAnimation()
+    //console.log(currentScene)
   }
 
   const handleResize = debounce(() => {  // 일정 시간이 지나고 함수가 한번만 실행됨
@@ -106,6 +149,14 @@ function Home() {
     ])
   }, 100)
 
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      yOffset = window.pageYOffset
+      scrollLoop()
+    })
+  }, [])
+  
   useEffect(() => {
     window.addEventListener('resize', handleResize)
     return () => {
@@ -114,12 +165,8 @@ function Home() {
     }
   }, []) // 빈 배열 전달하면 컴포넌트가 마운트, 언마운트 될 때만 실행
 
-  useEffect(() => {
-    window.addEventListener('scroll', () => {
-      yOffset = window.pageYOffset
-      scrollLoop()
-    })
-  }, [])
+  //window.addEventListener('load', setLayout)
+  setLayout()
 
   return (
     <>
@@ -128,16 +175,16 @@ function Home() {
         <div className={stickyElem}>
           움직이는 이미지
         </div>
-        <div className={`${mainMessage.root} ${stickyElem}`}>
+        <div className={`${mainMessage.root} ${stickyElem} a`}>
           <p className={mainMessage.text}>온전히 빠져들게 하는<br />최고급 세라믹</p>
         </div>
-        <div className={`${mainMessage.root} ${stickyElem}`}>
+        <div className={`${mainMessage.root} ${stickyElem} b`}>
           <p className={mainMessage.text}>주변 맛을 느끼게 해주는<br />주변 맛 허용 모드</p>
         </div>
-        <div className={`${mainMessage.root} ${stickyElem}`}>
+        <div className={`${mainMessage.root} ${stickyElem} c`}>
           <p className={mainMessage.text}>온종일 편안한<br />맞춤형 손잡이</p>
         </div>
-        <div className={`${mainMessage.root} ${stickyElem}`}>
+        <div className={`${mainMessage.root} ${stickyElem} d`}>
           <p className={mainMessage.text}>새롭게 입가를<br />찾아온 매혹</p>
         </div>
       </section>
@@ -182,3 +229,4 @@ function Home() {
 }
 
 export default Home
+
