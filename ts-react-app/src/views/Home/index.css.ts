@@ -1,4 +1,5 @@
 import { style, globalStyle } from "@vanilla-extract/css"
+import { opacify } from "polished"
 
 export const showScene0 = style({
   
@@ -39,43 +40,6 @@ export const scrollSec3 = {
   root: scrollSectionCommon,  
 }
 
-export const mainMessagewerw = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  top: '35vh',
-  height: '3em',
-  margin: '3px 0',
-  fontSize: '2.5rem',
-  opacity: 0,
-  selectors: {
-    [`${scrollSec0.root} &`]: {
-      display: 'block',
-    }
-  }
-})
-
-export const stickyElem = style({
-  display: 'none',
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100%',
-  selectors: {
-    [`#show_scroll_section_0 #scroll_section_0 &`]: {
-      display: 'block'
-    },
-    [`#show_scroll_section_1 #scroll_section_1 &`]: {
-      display: 'block'
-    },
-    [`#show_scroll_section_2 #scroll_section_2 &`]: {
-      display: 'block'
-    },
-    [`#show_scroll_section_3 #scroll_section_3 &`]: {
-      display: 'block'
-    },
-  }
-})
 export const mainMessage = {
   root: style({
     display: 'flex',
@@ -85,7 +49,7 @@ export const mainMessage = {
     height: '3em',
     margin: '3px 0',
     fontSize: '2.5rem',
-    opacity: 0,
+    //opacity: 0,
     selectors: {
       [`${scrollSec0.root} &`]: {
         display: 'block',
@@ -106,3 +70,25 @@ export const mainMessage = {
     fontSize: '1rem',
   })
 }
+
+export const stickyElem = style({
+  display: 'none',
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  selectors: {
+    [`#show_scene_0 #scroll_section_0 &`]: {
+      display: 'block'
+    },
+    [`#show_scene_1 #scroll_section_1 &`]: {
+      display: 'block'
+    },
+    [`#show_scene_2 #scroll_section_2 &`]: {
+      display: 'block',
+    },
+    [`#show_scene_3 #scroll_section_3 &`]: {
+      display: 'block'
+    },
+  }
+})
