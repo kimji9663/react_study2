@@ -20,7 +20,7 @@ interface SceneInfo {
   }
 }
 
-const sceneInfo: SceneInfo[] = [
+const sceneInfo_: SceneInfo[] = [
   {
     id: 0,
     type: 'sticky',
@@ -72,11 +72,60 @@ function Home() {
   let currentScene = 0 // 현재 보이는 scene(scroll-section)
   let enterNewScene = false // 새 scene에 진입하면 true가 됨
 
+  const [sceneInfo, setSceneInfo] = useState([
+    {
+      id: 0,
+      type: 'sticky',
+      heightNum: 5, // 스크롤 높이 = 화면 높이 * heightNum
+      scrollHeight: 0,
+      objs: {
+        container: document.querySelector('#scroll_section_0'),
+        messageA: document.querySelector(`#scroll_section_0 ${mainMessage.root} .a`),
+        messageB: document.querySelector(`#scroll_section_0 ${mainMessage.root} .b`),
+        messageC: document.querySelector(`#scroll_section_0 ${mainMessage.root} .c`),
+        messageD: document.querySelector(`#scroll_section_0 ${mainMessage.root} .d`),
+      },
+      values: {
+        messageA_opacity: [0, 1],
+      },
+    },
+    {
+      id: 1,
+      type: 'normal',
+      heightNum: 1,
+      scrollHeight: 0,
+      objs: {
+        container: document.querySelector('#scroll_section_1')
+      }
+    },
+    {
+      id: 2,
+      type: 'sticky',
+      heightNum: 5,
+      scrollHeight: 0,
+      objs: {
+        container: document.querySelector('#scroll_section_2')
+      }
+    },
+    {
+      id: 3,
+      type: 'normal',
+      heightNum: 5,
+      scrollHeight: 0,
+      objs: {
+        container: document.querySelector('#scroll_section_3')
+      }
+    },
+  ])
+
   const [height, setHeight] = useState([
     sceneInfo[0].scrollHeight,
     sceneInfo[1].scrollHeight,
     sceneInfo[2].scrollHeight,
     sceneInfo[3].scrollHeight,
+  ])
+  const [opacity, setOpacity] = useState([
+    sceneInfo[0].values?.messageA_opacity[0],
   ])
 
   function setLayout() {
@@ -97,14 +146,30 @@ function Home() {
     document.body.setAttribute('id', `show_scene_${currentScene}`)
   }
 
-  function calcValues(values) {
-    
+  function calcValues(values, currentYOffset) {
+    let rv;
+    // 현재 씬에서 몇 %까지 내려왔는가
+    let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight
+
+    rv = scrollRatio * (values[1] - values[0]) + values[0]
+    return scrollRatio
   }
 
   function playAnimation() {
+    const objs = sceneInfo[currentScene].objs
+    const values = sceneInfo[currentScene].values
+    const currentYOffset = yOffset - prevScrollHeight
+    console.log(calcValues(values?.messageA_opacity, currentYOffset))
+    
     switch (currentScene) {
       case 0:
-        console.log('0 play')
+        //console.log('0 play')
+        let messageA_opacity_in = calcValues(values?.messageA_opacity, currentYOffset)
+        //objs.messageA.style.opacity = messageA_opacity_in
+        setOpacity([
+          messageA_opacity_in,
+        ])
+        console.log(messageA_opacity_in)
         break
       case 1:
         console.log('1 play')
@@ -175,7 +240,7 @@ function Home() {
         <div className={stickyElem}>
           움직이는 이미지
         </div>
-        <div className={`${mainMessage.root} ${stickyElem} a`}>
+        <div className={`${mainMessage.root} ${stickyElem} a`} style={{ opacity: opacity[0] }}>
           <p className={mainMessage.text}>온전히 빠져들게 하는<br />최고급 세라믹</p>
         </div>
         <div className={`${mainMessage.root} ${stickyElem} b`}>
