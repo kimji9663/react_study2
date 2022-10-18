@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import { showScene0, showScene1, showScene2, showScene3, scrollSec0, scrollSec1, scrollSec2, scrollSec3, stickyElem, mainMessage } from './index.css'
 import { debounce } from 'lodash'
+import { style } from "@vanilla-extract/css"
+import { sprinkles } from '@styles/sprinkles.css'
 
 interface SceneInfo {
   id: number
@@ -16,11 +18,12 @@ interface SceneInfo {
     messageD?: Element | null
   }
   values?: {
-    messageA_opacity: number[]
+    messageA_opacity: [number, number, { start: number, end: number }],
+    messageB_opacity: [number, number, { start: number, end: number }],
   }
 }
 
-const sceneInfo_: SceneInfo[] = [
+const sceneInfo: SceneInfo[] = [
   {
     id: 0,
     type: 'sticky',
@@ -34,7 +37,8 @@ const sceneInfo_: SceneInfo[] = [
       messageD: document.querySelector(`#scroll_section_0 ${mainMessage.root} .d`),
     },
     values: {
-      messageA_opacity: [0, 1],
+      messageA_opacity: [0, 1, { start: 0.2, end: 0.2 }],
+      messageB_opacity: [0, 1, { start: 0.3, end: 0.4 }],
     },
   },
   {
@@ -72,51 +76,6 @@ function Home() {
   let currentScene = 0 // 현재 보이는 scene(scroll-section)
   let enterNewScene = false // 새 scene에 진입하면 true가 됨
 
-  const [sceneInfo, setSceneInfo] = useState([
-    {
-      id: 0,
-      type: 'sticky',
-      heightNum: 5, // 스크롤 높이 = 화면 높이 * heightNum
-      scrollHeight: 0,
-      objs: {
-        container: document.querySelector('#scroll_section_0'),
-        messageA: document.querySelector(`#scroll_section_0 ${mainMessage.root} .a`),
-        messageB: document.querySelector(`#scroll_section_0 ${mainMessage.root} .b`),
-        messageC: document.querySelector(`#scroll_section_0 ${mainMessage.root} .c`),
-        messageD: document.querySelector(`#scroll_section_0 ${mainMessage.root} .d`),
-      },
-      values: {
-        messageA_opacity: [0, 1],
-      },
-    },
-    {
-      id: 1,
-      type: 'normal',
-      heightNum: 1,
-      scrollHeight: 0,
-      objs: {
-        container: document.querySelector('#scroll_section_1')
-      }
-    },
-    {
-      id: 2,
-      type: 'sticky',
-      heightNum: 5,
-      scrollHeight: 0,
-      objs: {
-        container: document.querySelector('#scroll_section_2')
-      }
-    },
-    {
-      id: 3,
-      type: 'normal',
-      heightNum: 5,
-      scrollHeight: 0,
-      objs: {
-        container: document.querySelector('#scroll_section_3')
-      }
-    },
-  ])
 
   const [height, setHeight] = useState([
     sceneInfo[0].scrollHeight,
@@ -149,17 +108,26 @@ function Home() {
   function calcValues(values, currentYOffset) {
     let rv;
     // 현재 씬에서 몇 %까지 내려왔는가
-    let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight
+    const scrollHeight = sceneInfo[currentScene].scrollHeight
+    const scrollRatio = currentYOffset / scrollHeight
 
-    rv = scrollRatio * (values[1] - values[0]) + values[0]
-    return scrollRatio
+    if (values.length === 3){
+      // start ~ end 사이 애니메이션 실행
+      const partScrollStart = values[2].start * scrollHeight
+      const partScrollEnd = values[2].end * scrollHeight
+      const partScrollHeight = partScrollEnd - partScrollStart
+    } else {
+      rv = scrollRatio * (values[1] - values[0]) + values[0]
+    }
+
+    return rv
   }
 
   function playAnimation() {
     const objs = sceneInfo[currentScene].objs
     const values = sceneInfo[currentScene].values
     const currentYOffset = yOffset - prevScrollHeight
-    console.log(calcValues(values?.messageA_opacity, currentYOffset))
+    //console.log(calcValues(values?.messageA_opacity, currentYOffset))
     
     switch (currentScene) {
       case 0:
@@ -184,21 +152,26 @@ function Home() {
   }
 
   function scrollLoop() {
+    enterNewScene = false
     prevScrollHeight = 0
     for(let i = 0; i < currentScene; i++) {
       prevScrollHeight += sceneInfo[i].scrollHeight
     }
 
     if (yOffset > (prevScrollHeight + sceneInfo[currentScene].scrollHeight)) {
+      enterNewScene = true
       currentScene++
       document.body.setAttribute('id', `show_scene_${currentScene}`)
     }
 
     if (yOffset < prevScrollHeight) {
+      enterNewScene = true
       if (currentScene === 0) return
       currentScene--
       document.body.setAttribute('id', `show_scene_${currentScene}`)
     }
+
+    if(enterNewScene) return;
 
     playAnimation()
     //console.log(currentScene)
