@@ -19,7 +19,7 @@ const responsiveProperties = defineProperties({
     paddingLeft: vars.space,
     paddingRight: vars.space,
     width: ['100vw'],
-    height: ['100vh'],
+    height: ['100vh', '0px'],
     borderRadius: vars.borderRadius,
     fontFamily: vars.fontFamily,
     fontSize: vars.fontSize,
