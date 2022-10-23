@@ -116,6 +116,14 @@ function Home() {
       const partScrollStart = values[2].start * scrollHeight
       const partScrollEnd = values[2].end * scrollHeight
       const partScrollHeight = partScrollEnd - partScrollStart
+
+      if (currentYOffset >= partScrollStart && currentYOffset <= partScrollEnd){
+        rv = (currentYOffset - partScrollStart) / partScrollHeight * (values[1] - values[0])
+      } else if (currentYOffset < partScrollStart) {
+        rv = values[0]
+      } else if (currentYOffset > partScrollEnd) {
+        rv = values[1]
+      }
     } else {
       rv = scrollRatio * (values[1] - values[0]) + values[0]
     }
@@ -216,13 +224,13 @@ function Home() {
         <div className={`${mainMessage.root} ${stickyElem} a`} style={{ opacity: opacity[0] }}>
           <p className={mainMessage.text}>온전히 빠져들게 하는<br />최고급 세라믹</p>
         </div>
-        <div className={`${mainMessage.root} ${stickyElem} b`}>
+        <div className={`${mainMessage.root} ${stickyElem} b`} style={{display: 'none'}}>
           <p className={mainMessage.text}>주변 맛을 느끼게 해주는<br />주변 맛 허용 모드</p>
         </div>
-        <div className={`${mainMessage.root} ${stickyElem} c`}>
+        <div className={`${mainMessage.root} ${stickyElem} c`} style={{display: 'none'}}>
           <p className={mainMessage.text}>온종일 편안한<br />맞춤형 손잡이</p>
         </div>
-        <div className={`${mainMessage.root} ${stickyElem} d`}>
+        <div className={`${mainMessage.root} ${stickyElem} d`} style={{display: 'none'}}>
           <p className={mainMessage.text}>새롭게 입가를<br />찾아온 매혹</p>
         </div>
       </section>
